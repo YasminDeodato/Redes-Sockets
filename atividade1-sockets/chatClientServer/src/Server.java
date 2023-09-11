@@ -1,9 +1,7 @@
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.PrintWriter;
+import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -14,6 +12,7 @@ public class Server implements Runnable {
     private ServerSocket server;
     private boolean status;
     private ExecutorService pool;
+    private static FileWriter myWriter;
 
     public Server() {
         connections = new ArrayList<>();
@@ -26,6 +25,8 @@ public class Server implements Runnable {
             server = new ServerSocket(9999);
 
             pool = Executors.newCachedThreadPool();
+            iniciarLog();
+            BufferedReader inReader = new BufferedReader(new InputStreamReader(System.in));
             while (!status) {
                 Socket client = server.accept();
 
@@ -34,6 +35,8 @@ public class Server implements Runnable {
 
                 pool.execute(handler);
             }
+
+            //fecharLog();
         } catch (IOException e) {
              shutdown();
         }
@@ -43,6 +46,7 @@ public class Server implements Runnable {
         for (ConnectionHandler ch: connections) {
             if (ch != null) {
                 ch.sendMessage(message);
+
             }
         }
     }
@@ -52,6 +56,7 @@ public class Server implements Runnable {
             status = true;
             if (!server.isClosed()) {
                 server.close();
+                //fecharLog();
             }
             for (ConnectionHandler ch: connections) {
                 ch.shutdown();
@@ -100,6 +105,7 @@ public class Server implements Runnable {
                         broadcast(nickname + " left the chat!");
                         shutdown();
                     } else {
+                        gravarMensagem(nickname, message);
                         broadcast(nickname + ": " + message);
                     }
                 }
@@ -134,5 +140,40 @@ public class Server implements Runnable {
     public static void main(String[] args) {
         Server server = new Server();
         server.run();
+    }
+
+    public static void iniciarLog() {
+        try {
+            myWriter = new FileWriter("teste.txt");
+            myWriter.write("----------------Chat " + Instant.now().toString() + "----------------");
+            myWriter.close();
+            System.out.println("Successfully wrote to the file.");
+        } catch (IOException e) {
+            System.out.println("An error occurred.");
+            e.printStackTrace();
+        }
+    }
+
+    private static void gravarMensagem(String cliente, String mensagem) {
+        String log = Instant.now().toString() + " - " + cliente + " : '" + mensagem + "'";
+        try {
+            myWriter = new FileWriter("teste.txt");
+            myWriter.write(log);
+            myWriter.close();
+            System.out.println("Log escrito com sucesso");
+        } catch (IOException e) {
+            System.out.println("An error occurred.");
+            e.printStackTrace();
+        }
+    }
+
+    private static void fecharLog() {
+        try {
+            myWriter.close();
+            System.out.println("arquivo fechado com sucesso");}
+        catch (IOException e) {
+            System.out.println("An error occurred.");
+            e.printStackTrace();
+        }
     }
 }
