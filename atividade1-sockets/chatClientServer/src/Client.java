@@ -14,7 +14,7 @@ public class Client implements Runnable {
     @Override
     public void run() {
         try {
-            client = new Socket("127.0.0.1", 9999);
+            Socket client = new Socket("127.0.0.1", 9999);
 
             out = new PrintWriter(client.getOutputStream(), true);
             in = new BufferedReader(new InputStreamReader(client.getInputStream()));
@@ -37,11 +37,12 @@ public class Client implements Runnable {
         try {
             in.close();
             out.close();
+
             if (!client.isClosed()) {
                 client.close();
             }
         } catch (IOException e) {
-
+            // IGNORED
         }
     }
 
@@ -51,10 +52,12 @@ public class Client implements Runnable {
         public void run() {
             try {
                 BufferedReader inReader = new BufferedReader(new InputStreamReader(System.in));
-                
+
                 while (!status) {
                     String message = inReader.readLine();
+
                     if (message.equals("/quit")) {
+                        out.println(message);
                         inReader.close();
                         shutdown();
                     } else {
