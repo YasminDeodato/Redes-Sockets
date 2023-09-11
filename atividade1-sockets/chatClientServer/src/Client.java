@@ -68,6 +68,4 @@ public class Client implements Runnable {
         Client client = new Client();
         client.run();
     }
-
-
 }

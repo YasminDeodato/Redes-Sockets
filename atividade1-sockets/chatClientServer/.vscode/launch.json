@@ -1,0 +1,71 @@
+{
+    "configurations": [
+        {
+            "type": "java",
+            "name": "Client",
+            "request": "launch",
+            "mainClass": "Client",
+            "projectName": "chatClientServer_50447b2c"
+        },
+        {
+            "type": "java",
+            "name": "Server",
+            "request": "launch",
+            "mainClass": "Server",
+            "projectName": "chatClientServer_50447b2c"
+        },
+        {
+            "name": "C/C++ Debugger",
+            "type": "cppdbg",
+            "request": "launch",
+            "program": "${fileDirname}\\${fileBasenameNoExtension}.exe",
+            "args": [],
+            "stopAtEntry": true,
+            "cwd": "${workspaceFolder}",
+            "environment": [],
+            "externalConsole": false,
+            "MIMode": "gdb",
+            "miDebuggerPath": "C:\\mingw64\\bin\\gdb.exe",
+            "setupCommands": [
+                {
+                    "description": "Habilitar a reformatação automática para gdb",
+                    "text": "-enable-pretty-printing",
+                    "ignoreFailures": true
+                }
+            ],
+            "preLaunchTask": "C/C++: gcc.exe build active file"
+        },
+        {
+            "name": "Java Debbuger",
+            "type": "java",
+            "request": "launch",
+            "mainClass": "",
+            "args": "${command:SpecifyProgramArgs}",
+            "stopOnEntry": true,
+            "cwd": "${workspaceFolder}",
+            "console": "integratedTerminal",
+            "stepFilters": {
+                "skipClasses": [
+                    "$JDK",
+                    "junit.*"
+                ],
+                "skipSynthetics": false,
+                "skipConstructors": false,
+                "skipStaticInitializers": false
+            }
+        },
+        {
+            "name": "Python Debbuger",
+            "type": "python",
+            "request": "launch",
+            "program": "${file}",
+            "args": [],
+            "stopOnEntry": true,
+            "autoReload": {
+                "enable": true
+            },
+            "cwd": "${workspaceFolder}",
+            "console": "integratedTerminal"
+        }
+    ]
+}

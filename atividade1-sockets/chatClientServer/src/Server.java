@@ -74,17 +74,22 @@ public class Server implements Runnable {
             try {
                 in = new BufferedReader(new InputStreamReader(client.getInputStream()));
                 out = new PrintWriter(client.getOutputStream(), true);
+
                 out.println("Please, set your nickname: ");
                 nickname = in.readLine();
+
                 System.out.println(nickname + " connected!");
                 broadcast(nickname + " joined the chat!");
+
                 String message;
                 while ((message = in.readLine()) != null) {
                     if (message.startsWith("/nickname")) {
                         String[] messageSplit = message.split(" ", 2);
+
                         if (messageSplit.length == 2) {
                             broadcast(nickname + " renamed to " + messageSplit[1]);
                             System.out.println(nickname + " renamed to " + messageSplit[1]);
+                            
                             nickname = messageSplit[1];
                             out.println("Successfully changed nickname to " + nickname + "!");
                         } else {
