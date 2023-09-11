@@ -42,7 +42,7 @@ public class Client implements Runnable {
                 client.close();
             }
         } catch (IOException e) {
-            // IGNORED
+            // IGNORE
         }
     }
 
