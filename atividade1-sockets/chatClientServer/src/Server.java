@@ -89,13 +89,14 @@ public class Server implements Runnable {
                         if (messageSplit.length == 2) {
                             broadcast(nickname + " renamed to " + messageSplit[1]);
                             System.out.println(nickname + " renamed to " + messageSplit[1]);
-                            
+
                             nickname = messageSplit[1];
                             out.println("Successfully changed nickname to " + nickname + "!");
                         } else {
                             out.println("No nickname provided!");
                         }
                     } else if (message.startsWith("/quit")) {
+                        System.out.println(nickname + " disconnected!");
                         broadcast(nickname + " left the chat!");
                         shutdown();
                     } else {
